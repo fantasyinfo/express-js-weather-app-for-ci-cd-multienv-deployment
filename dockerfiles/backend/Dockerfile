@@ -2,14 +2,21 @@ FROM node:22-alpine
 
 WORKDIR /app
 
-COPY package.json ./
+# Configure node for optimized production runtime
+ENV NODE_ENV=production
+ENV PORT=3000
 
+# Copy dependency definitions (including lock file for reproducible builds)
+COPY package*.json ./
+
+# Install ONLY production dependencies to keep the image super light
 RUN npm install --omit=dev
 
-COPY . .
+# Copy the Express API backend script (from root)
+COPY index.js ./
 
-ENV NODE_ENV=production
-
+# Expose default application port
 EXPOSE 3000
 
+# Start the Express server
 CMD ["node", "index.js"]

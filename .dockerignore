@@ -19,6 +19,7 @@ build/
 
 # Ignore docker files
 Dockerfile
+dockerfiles/
 .dockerignore
 
 # Ignore logs and temp files
