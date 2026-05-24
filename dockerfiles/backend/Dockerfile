@@ -5,6 +5,7 @@ WORKDIR /app
 # Configure node for optimized production runtime
 ENV NODE_ENV=production
 ENV PORT=3000
+ENV FRONTEND_URL=https://dev.weather.fantasyinfo.cloud
 
 # Copy dependency definitions (including lock file for reproducible builds)
 COPY package*.json ./
