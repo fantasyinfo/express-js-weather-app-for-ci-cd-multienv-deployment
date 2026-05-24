@@ -1,8 +1,16 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 // Load environment variables
 dotenv.config();
+
+// allow origins
+const allowedOrigins = [
+    process.env.FRONTEND_URL,
+    "http://localhost:5173", // for dev
+].filter(Boolean);
+
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -37,7 +45,7 @@ function rateLimiter(req, res, next) {
 
     // Filter to keep only requests made within the last minute
     const timestamps = ipRequests.get(ip).filter(t => now - t < WINDOW_MS);
-    
+
     const remaining = Math.max(0, RATE_LIMIT - timestamps.length);
     const oldestTimestamp = timestamps[0] || now;
     const resetMs = oldestTimestamp + WINDOW_MS - now;
@@ -70,13 +78,19 @@ function rateLimiter(req, res, next) {
     // Record request timestamp
     timestamps.push(now);
     ipRequests.set(ip, timestamps);
-    
+
     // Update remaining requests
     req.rateLimit.remaining = RATE_LIMIT - timestamps.length;
     res.setHeader('X-RateLimit-Remaining', req.rateLimit.remaining);
 
     next();
 }
+
+// Enable CORS for allowed origins
+app.use(cors({
+    origin: allowedOrigins,
+    credentials: true
+}));
 
 // Serve frontend SPA from static dist folder
 app.use(express.static('dist'));
@@ -100,7 +114,7 @@ app.get('/weather', rateLimiter, async (req, res) => {
 
         // Call the free wttr.in weather API with JSON format (j1)
         const response = await fetch(`https://wttr.in/${encodeURIComponent(city)}?format=j1`);
-        
+
         // If it's a non-500 HTTP error, throw to let the catch block handle it
         if (!response.ok && response.status !== 500) {
             throw new Error(`Weather service returned status ${response.status}`);

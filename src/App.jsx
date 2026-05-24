@@ -30,6 +30,7 @@ export default function App() {
     resetSeconds: 60
   });
 
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || '';
   // Fetch London weather on mount
   useEffect(() => {
     fetchWeather('Delhi');
@@ -40,7 +41,7 @@ export default function App() {
     setError(null);
 
     try {
-      const response = await fetch(`/weather?city=${encodeURIComponent(city)}`);
+      const response = await fetch(`${BACKEND_URL}/weather?city=${encodeURIComponent(city)}`);
       const data = await response.json();
 
       if (data && data.rateLimit) {
