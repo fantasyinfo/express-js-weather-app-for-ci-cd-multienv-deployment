@@ -114,7 +114,7 @@ export default function App() {
             <CloudLightning className="logo-icon" size={36} />
             <h1>Nimbus Jenkins</h1>
           </div>
-          <p className="subtitle">Experience Weather in Pure Clarity</p>
+          <p className="subtitle">Experience Weather in Pure Clarity Jenkins</p>
         </header>
 
         {/* Search Bar Card */}
