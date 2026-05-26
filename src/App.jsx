@@ -112,7 +112,7 @@ export default function App() {
         <header>
           <div className="logo-container">
             <CloudLightning className="logo-icon" size={36} />
-            <h1>Nimbus</h1>
+            <h1>Nimbus Jenkins</h1>
           </div>
           <p className="subtitle">Experience Weather in Pure Clarity</p>
         </header>
