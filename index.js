@@ -98,7 +98,7 @@ app.use(express.static('dist'));
 // API Routes
 app.get('/health', (req, res) => res.json({
     status: 200,
-    data: "api is working well"
+    data: "api is working well updated via jenkins."
 }));
 
 app.get('/weather', rateLimiter, async (req, res) => {
